@@ -5,19 +5,19 @@ import Image from "next/image";
 
 import PostCard from "../components/PostCard";
 
-const Blog = ({ posts }) => {
+const Blog = ({ posts = [] }) => {
   const [mappedPosts, setMappedPosts] = useState([]);
 
   useEffect(() => {
-    if (posts.length) {
+    if (posts?.length) {
       const imageBuilder = imageUrlBuilder(sanityClient);
 
       setMappedPosts(
-        posts.map((post) => {
+        posts?.map((post) => {
           return {
             ...post,
             mainImage: imageBuilder
-              .image(post.mainImage)
+              .image(post?.mainImage)
               .width(450)
               .height(500),
           };
@@ -50,7 +50,7 @@ export const getServerSideProps = async (context) => {
   const data = await fetch(url).then((res) => res.json());
   const posts = data.result;
 
-  if (!posts || !posts.length === 0) {
+  if (!posts || !posts?.length === 0) {
     return {
       props: {
         posts: [],
